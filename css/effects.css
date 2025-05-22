@@ -1,0 +1,398 @@
+/* Neural Nostalgia Player - Animation Effects */
+
+/* Animated Background */
+.animated-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.2;
+  pointer-events: none;
+  background: 
+    linear-gradient(125deg, #ff00ff 0%, transparent 40%),
+    linear-gradient(45deg, #00ffff 0%, transparent 40%),
+    linear-gradient(to bottom, #000000, #121212);
+}
+
+.animated-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../img/grid.png');
+  opacity: 0.2;
+  animation: gridMove 60s linear infinite;
+}
+
+.animated-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 80%);
+}
+
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 500px 500px;
+  }
+}
+
+/* Enhanced VHS Effects */
+.vhs-random-glitch {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+}
+
+.vhs-random-glitch.active {
+  opacity: 1;
+  animation: randomGlitch 0.5s steps(2) forwards;
+}
+
+@keyframes randomGlitch {
+  0% {
+    background-position: 0 0;
+    transform: translateX(0);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.2) 0%,
+      rgba(0, 255, 255, 0.2) 30%,
+      rgba(255, 0, 255, 0.2) 70%
+    );
+  }
+  
+  25% {
+    transform: translateX(-5px);
+  }
+  
+  50% {
+    transform: translateX(5px);
+    background: linear-gradient(
+      90deg,
+      rgba(0, 255, 255, 0.2) 0%,
+      rgba(255, 0, 255, 0.2) 30%,
+      rgba(255, 0, 0, 0.2) 70%
+    );
+  }
+  
+  75% {
+    transform: translateX(-2px);
+  }
+  
+  100% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+}
+
+/* VHS Video Tracking Effect */
+.vhs-tracking {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 998;
+  background: 
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 10%,
+      rgba(255, 255, 255, 0) 20%
+    );
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.vhs-tracking.active {
+  opacity: 1;
+  animation: vhsTracking 2s linear forwards;
+}
+
+@keyframes vhsTracking {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.vhs-tracking-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  z-index: 997;
+}
+
+.vhs-tracking-line.active {
+  opacity: 1;
+  animation: trackingLine 0.8s ease-out forwards;
+}
+
+@keyframes trackingLine {
+  0% {
+    opacity: 0.8;
+    transform: translateY(-10px) scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(50vh) scaleY(3);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) scaleY(1);
+  }
+}
+
+/* Video Noise Texture */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;charset=utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="a"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23a)" opacity=".1"/></svg>');
+  pointer-events: none;
+  z-index: 995;
+  opacity: 0.03;
+}
+
+/* Fullscreen Mode */
+.fullscreen-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  cursor: pointer;
+  z-index: 100;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+.fullscreen-btn:hover {
+  opacity: 1;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+body.fullscreen {
+  overflow: hidden;
+}
+
+body.fullscreen #generatedResult {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+/* More immersive player in fullscreen */
+body.fullscreen .memory-header {
+  padding-top: 5vh;
+}
+
+body.fullscreen .vhs-overlay {
+  opacity: 0.8;
+}
+
+/* Retro TV frame in fullscreen mode */
+.tv-frame {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+  background-image: url('../img/tv-frame.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body.fullscreen .tv-frame {
+  display: block;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* Animated loading icon */
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--primary-color);
+  border-right-color: var(--secondary-color);
+  animation: spin 1s linear infinite;
+  margin: 1rem auto;
+}
+
+/* Enhanced tape controls */
+.tape-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tape-control-btn {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--text-color);
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tape-control-btn:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px var(--primary-color);
+}
+
+/* Audio visualization */
+.audio-visualizer {
+  position: absolute;
+  bottom: 65px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 500px;
+  height: 30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  z-index: 4;
+}
+
+.visualizer-bar {
+  width: 3px;
+  background-color: var(--primary-color);
+  animation: visualizerAnim 0.5s infinite alternate;
+  opacity: 0.7;
+  box-shadow: 0 0 5px var(--primary-color);
+}
+
+@keyframes visualizerAnim {
+  0% {
+    height: 5px;
+  }
+  100% {
+    height: var(--height, 15px);
+  }
+}
+
+/* Volume control */
+.volume-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.volume-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-right: 5px;
+}
+
+.volume-slider {
+  width: 0;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  cursor: pointer;
+}
+
+.volume-control:hover .volume-slider {
+  width: 60px;
+}
+
+.volume-level {
+  height: 100%;
+  width: 50%;
+  background-color: var(--secondary-color);
+}
+
+/* CRT Off Animation */
+.crt-off {
+  animation: crtOff 0.2s linear forwards;
+}
+
+@keyframes crtOff {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 0.8;
+    filter: brightness(2);
+  }
+  100% {
+    transform: scale(0.1);
+    opacity: 0;
+    filter: brightness(0);
+  }
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <!-- TV Frame Outer -->
+  <rect x="0" y="0" width="1200" height="800" rx="30" fill="#151515"/>
+  <rect x="50" y="50" width="1100" height="700" rx="20" fill="#0a0a0a"/>
+  
+  <!-- TV Screen Inner Border -->
+  <rect x="100" y="100" width="1000" height="600" rx="10" fill="none" stroke="#333" stroke-width="10"/>
+  
+  <!-- TV Controls -->
+  <rect x="500" y="730" width="200" height="30" rx="5" fill="#222"/>
+  <circle cx="550" cy="745" r="10" fill="#333"/>
+  <circle cx="600" cy="745" r="10" fill="#333"/>
+  <circle cx="650" cy="745" r="10" fill="#333"/>
+  
+  <!-- TV Glow -->
+  <rect x="100" y="100" width="1000" height="600" rx="10" fill="none" stroke="#ff00ff" stroke-width="2" opacity="0.3">
+    <animate attributeName="opacity" values="0.1;0.3;0.1" dur="5s" repeatCount="indefinite" />
+  </rect>
+  
+  <!-- TV Logo -->
+  <text x="120" y="130" font-family="VT323, monospace" font-size="22" fill="#ff00ff" opacity="0.7">NEURAL NOSTALGIA</text>
+  
+  <!-- TV Screen Cutout (to show content) -->
+  <rect x="105" y="105" width="990" height="590" rx="5" fill="transparent"/>
+</svg>
