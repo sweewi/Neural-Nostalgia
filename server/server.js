@@ -7,7 +7,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+// Configure CORS to allow requests from your frontend domain
+app.use(cors({
+  origin: ['https://neural-nostalgia.pages.dev', 'http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Get API keys from environment variables

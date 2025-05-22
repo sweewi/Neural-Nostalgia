@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        button { padding: 10px; margin: 10px 0; display: block; }
+        pre { background-color: #f5f5f5; padding: 10px; border-radius: 5px; overflow: auto; }
+        .result { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Neural Nostalgia API Test</h1>
+    <p>Use this page to test if your backend API is working correctly.</p>
+    
+    <button id="testPrompts">Test Generate Prompts</button>
+    <button id="testImage">Test Generate Image</button>
+    <button id="testMusic">Test Generate Music</button>
+    
+    <div class="result">
+        <h2>Result:</h2>
+        <pre id="output">Results will appear here...</pre>
+    </div>
+    
+    <script>
+        // API Endpoint - Update with your actual backend URL
+        const API_URL = 'https://neural-nostalgia.onrender.com';
+        
+        // Output element
+        const output = document.getElementById('output');
+        
+        // Test generate prompts
+        document.getElementById('testPrompts').addEventListener('click', async () => {
+            output.textContent = 'Testing prompts generation...';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/generate-prompts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        memoryText: 'Walking on the beach at sunset in the 90s'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    output.textContent = 'SUCCESS! Prompts generated:\n\n' + JSON.stringify(data, null, 2);
+                } else {
+                    output.textContent = 'ERROR: ' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                output.textContent = 'FETCH ERROR: ' + error.message;
+            }
+        });
+        
+        // Test generate image
+        document.getElementById('testImage').addEventListener('click', async () => {
+            output.textContent = 'Testing image generation...';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/generate-image`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: 'A sunset at the beach in the 1990s'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    output.textContent = 'SUCCESS! Image URL:\n\n' + data.url;
+                    
+                    // Display the image
+                    const img = document.createElement('img');
+                    img.src = data.url;
+                    img.style.maxWidth = '100%';
+                    img.style.marginTop = '10px';
+                    
+                    output.appendChild(document.createElement('br'));
+                    output.appendChild(img);
+                } else {
+                    output.textContent = 'ERROR: ' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                output.textContent = 'FETCH ERROR: ' + error.message;
+            }
+        });
+        
+        // Test generate music
+        document.getElementById('testMusic').addEventListener('click', async () => {
+            output.textContent = 'Testing music generation (this may take some time)...';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/generate-music`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: '90s beach sunset ambient music'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    output.textContent = 'SUCCESS! Music URL:\n\n' + data.url;
+                    
+                    // Add audio player
+                    const audio = document.createElement('audio');
+                    audio.controls = true;
+                    audio.src = data.url;
+                    audio.style.marginTop = '10px';
+                    audio.style.width = '100%';
+                    
+                    output.appendChild(document.createElement('br'));
+                    output.appendChild(audio);
+                } else {
+                    output.textContent = 'ERROR: ' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                output.textContent = 'FETCH ERROR: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

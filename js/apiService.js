@@ -5,9 +5,11 @@ class ApiService {    /**
      * Generate prompts for image and music based on user's memory description
      * @param {string} memoryText - The user's memory description
      * @returns {Promise<Object>} - Object containing prompts and date
-     */
-    static async generatePrompts(memoryText) {
+     */    static async generatePrompts(memoryText) {
         try {
+            console.log(`Attempting to generate prompts for: "${memoryText}"`);
+            console.log(`Using endpoint: ${CONFIG.ENDPOINTS.prompts}`);
+            
             const response = await fetch(CONFIG.ENDPOINTS.prompts, {
                 method: 'POST',
                 headers: {
@@ -16,11 +18,16 @@ class ApiService {    /**
                 body: JSON.stringify({ memoryText })
             });
             
+            console.log('Prompts API response status:', response.status);
+            
             if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}`);
+                const errorText = await response.text();
+                console.error('API error response:', errorText);
+                throw new Error(`API request failed with status ${response.status}: ${errorText}`);
             }
             
             const result = await response.json();
+            console.log('Successful prompts result:', result);
             
             return {
                 imagePrompt: result.imagePrompt,
@@ -29,6 +36,7 @@ class ApiService {    /**
             };
         } catch (error) {
             console.error('Error generating prompts:', error);
+            console.log('Falling back to local prompt generation');
             return this.generateFallbackPrompts(memoryText);
         }
     }
@@ -36,9 +44,11 @@ class ApiService {    /**
      * Generate an image based on a prompt
      * @param {string} prompt - The image generation prompt
      * @returns {Promise<string>} - URL of the generated image
-     */
-    static async generateImage(prompt) {
+     */    static async generateImage(prompt) {
         try {
+            console.log(`Attempting to generate image for prompt: "${prompt}"`);
+            console.log(`Using endpoint: ${CONFIG.ENDPOINTS.image}`);
+            
             const response = await fetch(CONFIG.ENDPOINTS.image, {
                 method: 'POST',
                 headers: {
@@ -47,23 +57,32 @@ class ApiService {    /**
                 body: JSON.stringify({ prompt })
             });
             
+            console.log('Image API response status:', response.status);
+            
             if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}`);
+                const errorText = await response.text();
+                console.error('API error response:', errorText);
+                throw new Error(`API request failed with status ${response.status}: ${errorText}`);
             }
             
             const data = await response.json();
+            console.log('Successful image result:', data);
+            
             return data.url;
         } catch (error) {
             console.error('Error generating image:', error);
+            console.log('Falling back to placeholder image');
             return this.getRandomPlaceholderImage();
         }
-    }    /**
+    }/**
      * Generate music based on a prompt using MusicGen API
      * @param {string} prompt - The music generation prompt
      * @returns {Promise<string>} - URL of the generated music
-     */
-    static async generateMusic(prompt) {
+     */    static async generateMusic(prompt) {
         try {
+            console.log(`Attempting to generate music for prompt: "${prompt}"`);
+            console.log(`Using endpoint: ${CONFIG.ENDPOINTS.music}`);
+            
             const response = await fetch(CONFIG.ENDPOINTS.music, {
                 method: 'POST',
                 headers: {
@@ -72,14 +91,21 @@ class ApiService {    /**
                 body: JSON.stringify({ prompt })
             });
             
+            console.log('Music API response status:', response.status);
+            
             if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}`);
+                const errorText = await response.text();
+                console.error('API error response:', errorText);
+                throw new Error(`API request failed with status ${response.status}: ${errorText}`);
             }
             
             const data = await response.json();
+            console.log('Successful music result:', data);
+            
             return data.url;
         } catch (error) {
             console.error('Error generating music:', error);
+            console.log('Falling back to lofi track');
             return this.getRandomLofiTrack();
         }
     }

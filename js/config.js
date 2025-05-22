@@ -4,13 +4,16 @@ const CONFIG = {
     OPENAI_API_KEY: '',
     REPLICATE_API_KEY: '',
     
+    // Base URL for API - Edit this to change all endpoints at once
+    API_BASE_URL: 'https://neural-nostalgia.onrender.com',
+      
     // API Endpoints - Point to our backend proxy server
     ENDPOINTS: {
         // Update these URLs with your actual server address when deployed
-        prompts: 'https://localhost:3000/api/generate-prompts',
-        image: 'https://localhost:3000/api/generate-image',
-        music: 'https://localhost:3000/api/generate-music',
-        
+        prompts: 'https://neural-nostalgia.onrender.com/api/generate-prompts',
+        image: 'https://neural-nostalgia.onrender.com/api/generate-image',
+        music: 'https://neural-nostalgia.onrender.com/api/generate-music',
+
         // Keep original endpoints for reference
         openai: 'https://api.openai.com/v1/chat/completions',
         dalle: 'https://api.openai.com/v1/images/generations',
